@@ -11,4 +11,7 @@ public class Classmate {
 	public void setSurname(String surname) {
 		this.surname=surname;
 	}
+	
+	
+	
 }

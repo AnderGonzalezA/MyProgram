@@ -93,33 +93,12 @@ public class Main {
 			boolean wordEntered = false;
 			while (wordEntered == false) {
 				String playerWord = sc.nextLine().toLowerCase();
-				String[] playerWordArray = playerWord.split(" ");
-				if (playerWordArray.length == 1) {
-					boolean numberFound = false;
-					for (int i = 0; i < playerWordArray[0].length(); i++) {
-						if (playerWordArray[0].charAt(i) == '0' || playerWordArray[0].charAt(i) == '1'
-								|| playerWordArray[0].charAt(i) == '2' || playerWordArray[0].charAt(i) == '3'
-								|| playerWordArray[0].charAt(i) == '4' || playerWordArray[0].charAt(i) == '5'
-								|| playerWordArray[0].charAt(i) == '6' || playerWordArray[0].charAt(i) == '7'
-								|| playerWordArray[0].charAt(i) == '8' || playerWordArray[0].charAt(i) == '9') {
-							numberFound = true;
-							break;
-						}
-					}
-					if (numberFound == false) {
-						wordEntered = true;
-						String surnameEntered=playerWordArray[0];
-						if (surnameEntered.equals(game.getClassmate().getSurname())) {
-							System.out.println("Congrats, you won the game.");
-						} else {
-							System.out.println("I'm sorry, you lost the game. The surname was " + game.getClassmate().getSurname());
-						}
-					} else {
-						System.out.println("Please, enter a real surname.");
-					}
-				} else {
-					System.out.println("Please, enter just a surname.");
-				}
+				
+			}
+			if (checkWord(wordEntered)) {
+				System.out.println("Congrats, you won the game.");
+			} else {
+				System.out.println("I'm sorry, you lost the game. The surname was " + game.getClassmate().getSurname());
 			}
 			// Ask if the player wants to play again
 			System.out.println("Would you like to play again?(y/n)");
