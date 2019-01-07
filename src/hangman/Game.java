@@ -3,26 +3,17 @@ package hangman;
 import java.util.Random;
 
 public class Game {
-	private Classmate classmate;
 	private char[] guessed=new char[3];
 	private int guessedCounter=0;
-	private String surnameChosen="";
+	private String randomSurname="";
 	public Game() {
 		// Save into an array all the surnames of the people in class
 		String[] surnames = {"lazkano","intxausti","artola","alberdi","lekubide","ortiz","gonzalez"};
 		// Take randomly a surname between them
-		String randomSurname = surnames[new Random().nextInt(surnames.length)];
-		Classmate classmate = new Classmate(randomSurname);
-		this.classmate=classmate;
-	}
-	public Classmate getClassmate() {
-		return classmate;
-	}
-	public void setClassmate(Classmate classmate) {
-		this.classmate=classmate;
+		this.randomSurname = surnames[new Random().nextInt(surnames.length)];
 	}
 	public char[] getGuessed() {
-		return guessed;
+		return this.guessed;
 	}
 	public void setGuessed(char[] guessed) {
 		this.guessed=guessed;
@@ -33,19 +24,25 @@ public class Game {
 	public void setGuessedCounter(int guessedCounter) {
 		this.guessedCounter=guessedCounter;
 	}
+	public String getRandomSurname() {
+		return this.randomSurname;
+	}
+	public void setRandomSurname(String randomSurname) {
+		this.randomSurname=randomSurname;
+	}
 	public void printVoids() {
 		// Print the word with voids
-		for (int i = 0; i < classmate.getSurname().length(); i++) {
+		for (int i = 0; i < this.randomSurname.length(); i++) {
 			System.out.print("_ ");
 		}
 	}
 	public void printGuessed() {
 		// Print the surname with only the letters that the player guessed
-		for (int surnameIndex = 0; surnameIndex < classmate.getSurname().length(); surnameIndex++) {
+		for (int surnameIndex = 0; surnameIndex < this.randomSurname.length(); surnameIndex++) {
 			boolean found = false;
 			for (int guessedIndex = 0; guessedIndex < guessed.length; guessedIndex++) {
-				if (guessed[guessedIndex] == classmate.getSurname().charAt(surnameIndex)) {
-					System.out.print(classmate.getSurname().charAt(surnameIndex) + " ");
+				if (guessed[guessedIndex] == this.randomSurname.charAt(surnameIndex)) {
+					System.out.print(this.randomSurname.charAt(surnameIndex) + " ");
 					found = true;
 				}
 			}
@@ -54,32 +51,37 @@ public class Game {
 			}
 		}
 	}
+	public void checkLetter(char playerLetter) {
+		for (int surnameIndex = 0; surnameIndex < this.randomSurname.length(); surnameIndex++) {
+			if (this.randomSurname.charAt(surnameIndex) == playerLetter) {
+				// If it is, open another loop which will go checking if the player had already
+				// guessed that letter
+				boolean found = false;
+				int guessedIndex = 0;
+				while (guessedIndex < this.guessed.length && this.guessed[guessedIndex] != playerLetter
+						&& !found) {
+					// Check that the cell of the array is empty
+					if (!Character.isLetter(this.guessed[guessedIndex])) {
+						// If he/she had not done so, save the letter in the array 'guessed'
+						this.guessed[this.guessedCounter] = this.randomSurname.charAt(surnameIndex);
+						// Increment once the variable 'guessedCounter' for a future possible letter
+						this.guessedCounter++;
+						// Define the variable 'found' as true so as to get out of the loop
+						found = true;
+					}
+					// Increment the variable 'guessedIndex' so as to check the next letter of the array
+					// 'guessed'
+					guessedIndex++;
+				}
+				break;
+			}
+		}
+	}
 	public boolean checkWord(String playerWord) {
-		String[] playerWordArray = playerWord.split(" ");
-		if (playerWordArray.length == 1) {
-			boolean numberFound = false;
-			for (int i = 0; i < playerWordArray[0].length(); i++) {
-				if (playerWordArray[0].charAt(i) == '0' || playerWordArray[0].charAt(i) == '1'
-						|| playerWordArray[0].charAt(i) == '2' || playerWordArray[0].charAt(i) == '3'
-						|| playerWordArray[0].charAt(i) == '4' || playerWordArray[0].charAt(i) == '5'
-						|| playerWordArray[0].charAt(i) == '6' || playerWordArray[0].charAt(i) == '7'
-						|| playerWordArray[0].charAt(i) == '8' || playerWordArray[0].charAt(i) == '9') {
-					numberFound = true;
-					break;
-				}
-			}
-			if (numberFound == false) {
-				String surnameEntered=playerWordArray[0];
-				if (surnameEntered.equals(getClassmate().getSurname())) {
-					System.out.println("Congrats, you won the game.");
-				} else {
-					System.out.println("I'm sorry, you lost the game. The surname was " + getClassmate().getSurname());
-				}
-			} else {
-				System.out.println("Please, enter a real surname.");
-			}
+		if (playerWord.equals(this.randomSurname)) {
+			return true;
 		} else {
-			System.out.println("Please, enter just a surname.");
+			return false;
 		}
 	}
 }

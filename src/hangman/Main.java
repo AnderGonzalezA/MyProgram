@@ -17,68 +17,29 @@ public class Main {
 			// Open a loop that will go asking to the player a possible letter in each turn
 			int tries = 0;
 			while (tries < 3) {
-				// Check that the player doesn't enter a number
-				if (!sc.hasNextInt()) {
-					// Create a string object with the letter's value
-					String entered = sc.nextLine().toLowerCase();
-					String[] letterArray = entered.split(" ");
-					if (letterArray.length == 1) {
-						// Check that the player has entered just a character
-						if (letterArray[0].length() == 1) {
-							boolean numberFound = false;
-							if (letterArray[0].charAt(0) == '0' || letterArray[0].charAt(0) == '1'
-									|| letterArray[0].charAt(0) == '2' || letterArray[0].charAt(0) == '3'
-									|| letterArray[0].charAt(0) == '4' || letterArray[0].charAt(0) == '5'
-									|| letterArray[0].charAt(0) == '6' || letterArray[0].charAt(0) == '7'
-									|| letterArray[0].charAt(0) == '8' || letterArray[0].charAt(0) == '9') {
-								numberFound=true;
-							}
-							if (numberFound == false) {
-								char letterEntered = letterArray[0].charAt(0);
-								// Open a loop that will go checking if the letter the player entered is in the
-								// surname
-								for (int surnameIndex = 0; surnameIndex < game.getClassmate().getSurname().length(); surnameIndex++) {
-									if (game.getClassmate().getSurname().charAt(surnameIndex) == letterEntered) {
-										// If it is, open another loop which will go checking if the player had already
-										// guessed that letter
-										boolean found = false;
-										int guessedIndex = 0;
-										while (guessedIndex < game.getGuessed().length && game.getGuessed()[guessedIndex] != letterEntered
-												&& !found) {
-											// Check that the cell of the array is empty
-											if (!Character.isLetter(game.getGuessed()[guessedIndex])) {
-												// If he/she had not done so, save the letter in the array 'guessed'
-												game.getGuessed()[game.getGuessedCounter()] = game.getClassmate().getSurname().charAt(surnameIndex);
-												// Increment once the variable 'guessedCounter' for a future possible letter
-												game.setGuessedCounter(game.getGuessedCounter()+1);
-												// Define the variable 'found' as true so as to get out of the loop
-												found = true;
-											}
-											// Increment the variable 'guessedIndex' so as to check the next letter of the array
-											// 'guessed'
-											guessedIndex++;
-										}
-										break;
-									}
-								}
-								// Increment 'tries' so as to ask for another letter
-								tries++;
-							} else {
-								System.out.println("Please, enter a real letter.");
-							}
+				// Create a string object with the letter's value
+				String entered = sc.nextLine().toLowerCase();
+				String[] letterArray = entered.split(" ");
+				if (letterArray.length == 1) {
+					// Check that the player has entered just a character
+					if (letterArray[0].length() == 1) {
+						if (Character.isLetter(letterArray[0].charAt(0))) {
+							char playerLetter = letterArray[0].charAt(0);
+							// Open a loop that will go checking if the letter the player entered is in the
+							// surname
+							game.checkLetter(playerLetter);
+							// Increment 'tries' so as to ask for another letter
+							tries++;
+						} else {
+							System.out.println("Please, enter a real letter.");
 						}
-						// If the player entered more than one characters, ask him/her to enter just one
-						else {
-							System.out.println("Don't cheat, please enter just a letter.");
-						}
-					} else {
+					}
+					// If the player entered more than one characters, ask him/her to enter just one
+					else {
 						System.out.println("Don't cheat, please enter just a letter.");
 					}
-				}
-				// If the player entered a number, ask him to enter a letter
-				else {
-					System.out.println("That is not a letter, try it again.");
-					sc.nextLine();
+				} else {
+					System.out.println("Don't cheat, please enter just a letter.");
 				}
 				game.printGuessed();
 				// Print to the letters that the player has left
@@ -92,13 +53,29 @@ public class Main {
 			System.out.println("It's the time, you have to guess the word.");
 			boolean wordEntered = false;
 			while (wordEntered == false) {
-				String playerWord = sc.nextLine().toLowerCase();
-				
-			}
-			if (checkWord(wordEntered)) {
-				System.out.println("Congrats, you won the game.");
-			} else {
-				System.out.println("I'm sorry, you lost the game. The surname was " + game.getClassmate().getSurname());
+				String[] playerWordArray = sc.nextLine().split(" ");
+				if (playerWordArray.length == 1) {
+					boolean nonLetterFound = false;
+					for (int i = 0; i < playerWordArray[0].length(); i++) {
+						if (!Character.isLetter(playerWordArray[0].charAt(i))) {
+							nonLetterFound = true;
+							break;
+						}
+					}
+					if (!nonLetterFound) {
+						wordEntered=true;
+						String surnameEntered=playerWordArray[0];
+						if (game.checkWord(surnameEntered)){
+							System.out.println("Congrats, you won the game.");
+						}else {
+							System.out.println("I'm sorry, you lost the game.");
+						}
+					} else {
+						System.out.println("Please, enter a real surname.");
+					}
+				} else {
+					System.out.println("Please, enter just a surname.");
+				}
 			}
 			// Ask if the player wants to play again
 			System.out.println("Would you like to play again?(y/n)");
