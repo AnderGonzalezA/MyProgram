@@ -84,4 +84,42 @@ public class Game {
 			return false;
 		}
 	}
+	public boolean isLetter(String[] entered) {
+		boolean isLetter=false;
+		if (entered.length==1) {
+			String[] letterArray = entered[0].split(" ");
+			if (letterArray.length == 1) {
+				// Check that the player has entered just a character
+				if (letterArray[0].length() == 1) {
+					if (Character.isLetter(letterArray[0].charAt(0))) {
+						isLetter=true;
+					}
+				}
+			}
+		}
+		if (isLetter) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+	public boolean isWord(String[] entered) {
+		boolean isLetter=false;
+		if (entered.length==1) {
+			String[] letterArray = entered[0].split(" ");
+			if (letterArray.length == 1) {
+				// Check that the player has entered just a character
+				if (letterArray[0].length() == 1) {
+					if (Character.isLetter(letterArray[0].charAt(0))) {
+						isLetter=true;
+					}
+				}
+			}
+		}
+		if (isLetter) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }

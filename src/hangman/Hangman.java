@@ -18,28 +18,17 @@ public class Hangman {
 			int tries = 0;
 			while (tries < 3) {
 				// Create a string object with the letter's value
-				String entered = sc.nextLine().toLowerCase();
-				String[] letterArray = entered.split(" ");
-				if (letterArray.length == 1) {
-					// Check that the player has entered just a character
-					if (letterArray[0].length() == 1) {
-						if (Character.isLetter(letterArray[0].charAt(0))) {
-							char playerLetter = letterArray[0].charAt(0);
-							// Open a loop that will go checking if the letter the player entered is in the
-							// surname
-							game.checkLetter(playerLetter);
-							// Increment 'tries' so as to ask for another letter
-							tries++;
-						} else {
-							System.out.println("Please, enter a real letter.");
-						}
-					}
-					// If the player entered more than one characters, ask him/her to enter just one
-					else {
-						System.out.println("Don't cheat, please enter just a letter.");
-					}
-				} else {
-					System.out.println("Don't cheat, please enter just a letter.");
+				String entered[] = sc.nextLine().toLowerCase().split(" ");
+				if (game.isLetter(entered)) {
+					String[] letterArray = entered[0].split(" ");
+					char playerLetter = letterArray[0].charAt(0);
+					// Open a loop that will go checking if the letter the player entered is in the
+					// surname
+					game.checkLetter(playerLetter);
+					// Increment 'tries' so as to ask for another letter
+					tries++;
+				}else {
+					System.out.println("Please, enter a letter.");
 				}
 				game.printGuessed();
 				// Print to the letters that the player has left
