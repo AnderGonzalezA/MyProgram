@@ -20,8 +20,7 @@ public class Hangman {
 				// Create a string object with the letter's value
 				String entered[] = sc.nextLine().toLowerCase().split(" ");
 				if (game.isLetter(entered)) {
-					String[] letterArray = entered[0].split(" ");
-					char playerLetter = letterArray[0].charAt(0);
+					char playerLetter = entered[0].charAt(0);
 					// Open a loop that will go checking if the letter the player entered is in the
 					// surname
 					game.checkLetter(playerLetter);
@@ -43,27 +42,16 @@ public class Hangman {
 			boolean wordEntered = false;
 			while (wordEntered == false) {
 				String[] playerWordArray = sc.nextLine().split(" ");
-				if (playerWordArray.length == 1) {
-					boolean nonLetterFound = false;
-					for (int i = 0; i < playerWordArray[0].length(); i++) {
-						if (!Character.isLetter(playerWordArray[0].charAt(i))) {
-							nonLetterFound = true;
-							break;
-						}
+				if (game.isWord(playerWordArray)) {
+					String surnameEntered=playerWordArray[0];
+					if (game.checkWord(surnameEntered)){
+						System.out.println("Congrats, you won the game.");
+					}else {
+						System.out.println("I'm sorry, you lost the game.");
 					}
-					if (!nonLetterFound) {
-						wordEntered=true;
-						String surnameEntered=playerWordArray[0];
-						if (game.checkWord(surnameEntered)){
-							System.out.println("Congrats, you won the game.");
-						}else {
-							System.out.println("I'm sorry, you lost the game.");
-						}
-					} else {
-						System.out.println("Please, enter a real surname.");
-					}
+					wordEntered=true;
 				} else {
-					System.out.println("Please, enter just a surname.");
+						System.out.println("Please, enter a surname.");
 				}
 			}
 			// Ask if the player wants to play again
