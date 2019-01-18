@@ -37,7 +37,7 @@ public class Game {
 	}
 	/**
 
-     * Guessed setter method
+     * guessed setter method
 
      * @param guessed The new guessed char array
 
@@ -140,9 +140,8 @@ public class Game {
 	public boolean checkWord(String playerWord) {
 		if (playerWord.equals(this.randomSurname)) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 	/**
 
@@ -152,30 +151,17 @@ public class Game {
 	 * @return True if what the player entered is a letter, otherwise false.
 
 	 */
-	public boolean isLetter(String[] entered) {
-		boolean isLetter=true;
-		if (entered.length==1) {
-			String[] letterArray = entered[0].split(" ");
-			if (letterArray.length == 1) {
-				// Check that the player has entered just a character
-				if (letterArray[0].length() == 1) {
-					if (!Character.isLetter(letterArray[0].charAt(0))) {
-						isLetter=false;
-					}
-				}else {
-					isLetter=false;
+	public boolean isLetter(String entered) {
+		String[] letterArray = entered.split(" ");
+		if (letterArray.length==1) {
+			// Check that the player has entered just a character
+			if (letterArray[0].length() == 1) {
+				if (!Character.isLetter(letterArray[0].charAt(0))) {
+					return false;
 				}
-			}else {
-				isLetter=false;
 			}
-		}else {
-			isLetter=false;
 		}
-		if (isLetter) {
-			return true;
-		}else {
-			return false;
-		}
+		return true;
 	}
 	/**
 
@@ -185,27 +171,15 @@ public class Game {
 	 * @return True if what the player entered is a word, otherwise false.
 
 	 */
-	public boolean isWord(String[] entered) {
-		boolean isWord=true;
-		if (entered.length==1) {
-			String[] letterArray = entered[0].split(" ");
-			if (letterArray.length == 1) {
-				for (int i=0;i<letterArray[0].length();i++) {
-					if (!Character.isLetter(letterArray[0].charAt(i))) {
-						isWord=false;
-						break;
-					}
+	public boolean isWord(String entered) {
+		String[] letterArray = entered.split(" ");
+		if (letterArray.length == 1) {
+			for (int i=0;i<letterArray[0].length();i++) {
+				if (!Character.isLetter(letterArray[0].charAt(i))) {
+					return false;
 				}
-			}else {
-				isWord=false;
 			}
-		}else {
-			isWord=false;
 		}
-		if (isWord) {
-			return true;
-		}else {
-			return false;
-		}
+		return true;
 	}
 }

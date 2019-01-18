@@ -18,9 +18,9 @@ public class Hangman {
 			int tries = 0;
 			while (tries < 3) {
 				// Create a string object with the letter's value
-				String entered[] = sc.nextLine().toLowerCase().split(" ");
+				String entered = sc.nextLine().toLowerCase();
 				if (game.isLetter(entered)) {
-					char playerLetter = entered[0].charAt(0);
+					char playerLetter = entered.charAt(0);
 					// Open a loop that will go checking if the letter the player entered is in the
 					// surname
 					game.checkLetter(playerLetter);
@@ -41,10 +41,9 @@ public class Hangman {
 			System.out.println("It's the time, you have to guess the word.");
 			boolean wordEntered = false;
 			while (wordEntered == false) {
-				String[] playerWordArray = sc.nextLine().split(" ");
-				if (game.isWord(playerWordArray)) {
-					String surnameEntered=playerWordArray[0];
-					if (game.checkWord(surnameEntered)){
+				String playerWord = sc.nextLine();
+				if (game.isWord(playerWord)) {
+					if (game.checkWord(playerWord)){
 						System.out.println("Congrats, you won the game.");
 					}else {
 						System.out.println("I'm sorry, you lost the game.");
